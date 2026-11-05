@@ -1,0 +1,44 @@
+#!/bin/busybox sh
+# retro7 minimal initramfs init
+export PATH=/bin
+/bin/busybox --install -s /bin
+mount -t proc proc /proc
+mount -t sysfs sysfs /sys
+mount -t devtmpfs devtmpfs /dev
+mount -t tmpfs tmpfs /run 2>/dev/null || mkdir -p /run
+
+echo "== retro7 initramfs rescue =="
+sh /usr/local/sbin/usb-gadget.sh 2>/dev/null || true
+# gadget serial shell as rescue console; wait for the gadget to come up
+( n=0; while [ "$n" -lt 20 ] && [ ! -e /dev/ttyGS0 ]; do sleep 1; n=$((n+1)); done
+  [ -e /dev/ttyGS0 ] && setsid sh -c 'exec sh </dev/ttyGS0 >/dev/ttyGS0 2>&1' ) &
+
+echo "scanning eMMC for RETRO7ROOT ..."
+# eMMC probe is async — partitions may not exist yet when we get here
+n=0
+while [ ! -e /dev/mmcblk0 ] && [ "$n" -lt 30 ]; do sleep 1; n=$((n+1)); done
+sleep 2   # let the partition devices register
+# label-based lookup needs blkid (missing in some busybox builds), so we
+# probe-mount ext4 partitions instead and check for a Debian root signature
+ROOTDEV=""
+for p in /dev/mmcblk0p*; do
+  mount -t ext4 -o ro "$p" /mnt 2>/dev/null || continue
+  if [ -d /mnt/usr ] && [ -x /mnt/sbin/init ]; then
+    ROOTDEV="$p"
+    mount -o remount,rw /mnt
+    break
+  fi
+  umount /mnt
+done
+
+if [ -n "$ROOTDEV" ]; then
+  mkdir -p /mnt
+  if mount -o rw "$ROOTDEV" /mnt; then
+    echo "switching to real root: $ROOTDEV"
+    exec switch_root /mnt /sbin/init
+  fi
+fi
+
+echo "!! RETRO7ROOT not found - emergency shell"
+echo "   rescue: shell on /dev/console (screen) or /dev/ttyGS0 (USB serial)"
+exec setsid sh -c 'exec sh </dev/console >/dev/console 2>&1'

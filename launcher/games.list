@@ -1,0 +1,7 @@
+# retro7 games list — Name::command  ("#" starts a comment)
+# Expects builds under ~/games/<slug>
+GTA III (re3)::/home/retro/games/re3/re3
+Vice City (reVC)::/home/retro/games/revc/reVC
+NFS II SE (reimpl)::/home/retro/games/nfs2-ultra/game
+RetroArch::retroarch
+Terminal::goterm

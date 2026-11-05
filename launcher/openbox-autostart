@@ -1,0 +1,2 @@
+# snap: retro7 openbox autostart
+( sleep 1 && /usr/local/bin/games-menu & )

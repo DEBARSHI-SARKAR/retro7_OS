@@ -1,0 +1,2 @@
+LABEL=RETRO7ROOT / ext4 noatime,defaults 0 1
+# tmpfs-ish extras (systemd mounts these itself)

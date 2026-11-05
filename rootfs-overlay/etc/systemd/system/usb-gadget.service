@@ -1,0 +1,10 @@
+[Unit]
+Description=retro7 USB gadget console (ncm-ECM + serial for SSH-over-USB)
+After=systemd-modules-load.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/usb-gadget.sh
+
+[Install]
+WantedBy=sysinit.target

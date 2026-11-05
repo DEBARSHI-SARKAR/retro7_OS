@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openbox_config xmlns="http://openbox.org/3.4/rc">
+  <keyboard>
+    <keybind key="A-m">
+      <action name="Execute"><command>games-menu</command></action>
+    </keybind>
+    <keybind key="A-t">
+      <action name="Execute"><command>xterm</command></action>
+    </keybind>
+    <keybind key="A-F4">
+      <action name="Close"/>
+    </keybind>
+  </keyboard>
+  <mouse>
+    <context name="Frame">
+      <mousebind button="A-Left" action="Drag">
+        <action name="Move"/>
+      </mousebind>
+    </context>
+  </mouse>
+  <applications>
+    <application class="*">
+      <decor>no</decor>
+    </application>
+    <application class="re3">
+      <fullscreen>yes</fullscreen>
+    </application>
+    <application class="reVC">
+      <fullscreen>yes</fullscreen>
+    </application>
+    <application class="retroarch">
+      <fullscreen>yes</fullscreen>
+    </application>
+  </applications>
+</openbox_config>
