@@ -4,7 +4,7 @@ A **full Console** experience for the Samsung Galaxy On7 / On7 Pro
 (SM-G600F / G600FY / G600S — Snapdragon 410 / msm8916, Adreno 306).
 
 - **Kernel:** mainline fork [`msm8916-mainline/linux`](https://github.com/msm8916-mainline/linux)
-  (carries `msm8916-samsung-o7` device tree) + our hardware bring-up
+  (carries `msm8916-samsung-o7` device tree) + retro7 hardware bring-up
 - **Userspace:** minimal-but-full Debian (`debootstrap minbase`, systemd, apt-universe available)
 - **DE:** X11 + Openbox + a tiny custom game-launcher menu (touch + gamepad friendly)
 - **Games:** re3 / reVC + old-NFS reverse-engineered reimplementations, aarch64 builds
@@ -70,4 +70,4 @@ docs/bringup.md             hardware facts + driver plans
 > build/boot loop — the fork moves; scripts state their assumptions loudly (`TODO`).
 >
 > This unit verified at M0: 8 GB model → userdata rootfs budget ≈ 4.7 GB
-> (see make-rootfs.sh / bringup.md). Display panel = S6D7AA0X62 (fork-supported).
+> (see make-rootfs.sh / bringup.md). Display panel = S6D7AA0X62.
