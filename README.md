@@ -1,4 +1,4 @@
-# retro7 — one phone, one kernel, one menu, all the games
+# retro7 — Giving a second chance of life for your rusty Phones 
 
 A **full Console** experience for the Samsung Galaxy On7 / On7 Pro
 (SM-G600F / G600FY / G600S — Snapdragon 410 / msm8916, Adreno 306).
@@ -21,8 +21,8 @@ A **full Console** experience for the Samsung Galaxy On7 / On7 Pro
 | USB device mode → SSH/gadget-net console | ✅ |
 | Debian minbase rootfs on userdata | ✅ DIY in this repo |
 | Openbox + launcher menu | ✅ DIY in this repo |
-| Touchscreen (Zinitix ZT7548) | ❌ port driver → docs/bringup.md §2 |
-| Audio | ⚠️ drivers exist, o7 routing untested → §3 |
+| Touchscreen (Zinitix ZT7548) | ❌ port driver -> docs/bringup.md |
+| Audio | ⚠️ drivers exist, o7 routing untested |
 | USB **host** mode (wired gamepad) | ⚠️ device-mode ok, host path absent |
 | Camera, GPS, sensors | ❌ out of scope |
 
