@@ -1,11 +1,11 @@
-# Hardware bring-up bible — Galaxy On7 (`samsung-o7`)
+# Hardware bring-up — Galaxy On7 (`samsung-o7`)
 
 Facts from postmarketOS wiki (Samsung_Galaxy_On7_(2015)_(samsung-on7)) and fork
 sources. SM-G600FY = "o7lte-swa" SKU (shares platform with On7 Pro — variant
 compat unverified; this project is the verification).
 
-## §0 Build PC prerequisites
-Your PC: **Fedora 44 (x86_64)** — and Fedora ships native cross toolchains,
+## Build PC prerequisites
+My PC: **Fedora 44 (x86_64)** — and Fedora ships native cross toolchains,
 so no tarball and no container needed:
 ```sh
 # cross toolchain (aarch64 = the phone's ARMv8 64-bit; installs aarch64-linux-gnu-*)
@@ -50,7 +50,7 @@ eMMC enumerated (27 parts), gadget up at ~1.6 s. Gotchas that cost us (do not fo
 - gadget functions are `CONFIG_USB_CONFIGFS_ACM` / `_NCM` — **no F_ prefix**
   (F_* is only for newer functions). kconfig silently drops typos.
 
-## §1 lk2nd (once — from the rooted phone, DONE on this unit 2026-11-04)
+## lk2nd (once — from the rooted phone, DONE on this unit 2026-11-04)
 lk2nd is a tiny Android-boot-image **shim**: the stock Samsung bootloader
 still does the booting, it just finds lk2nd in `BOOT` instead of the Android
 kernel. Thereafter the real OS gets chainloaded from a **512 KiB offset**
@@ -105,7 +105,7 @@ userdata p27 = our future Debian rootfs target (M2)
 - You can also update lk2nd later without re-flashing boot: from lk2nd
   fastboot, `fastboot flash lk2nd lk2nd-msm8916.img`.
 
-## §2 Touchscreen — Zinitix ZT7548 (must-do for the launcher UX)
+## Touchscreen — Zinitix ZT7548 (must-do for the launcher UX)
 Known wiring (wiki/driver notes):
 ```
 irq-gpio 13, scl-gpio 19, sda-gpio 18
@@ -118,14 +118,14 @@ Plan:
    (zt7548 vs bt-series), `interrupt-parent/pinctrl` for irq 13, `irq-gpio`.
 3. evtest + dmesg loop; add `mount-matrix` if orientation is flipped.
 
-## §3 Audio (untested on o7)
+## Audio (untested on o7)
 SoC audio (PM8916 wcd + qcom DSP/Apr) drivers are mainline and working on
 sibling msm8916 phones; o7 needs analog routing + UCM. Steps:
 1. Enable `CONFIG_SND_*` msm symbols in fragment (look up exact names in fork).
 2. Add/verify `sound` node in `msm8916-samsung-o7.dts`.
 3. `aplay -l`, then write a small UCM2 for speaker/headset/mic.
 
-## §4 USB host mode (wired gamepad) — SM5703 MUIC via sm5502 extcon
+## USB host mode (wired gamepad) — SM5703 MUIC via sm5502 extcon
 Current: device-mode + charger detect OK; host path absent (hence pmOS "OTG: partial").
 Precedent: sibling Samsung msm8916 A3/A5 2015 ports have host mode working in
 the same fork — diff their DTS/MUIC usage against ours and adapt.
@@ -135,13 +135,13 @@ the same fork — diff their DTS/MUIC usage against ours and adapt.
 3. Test: OTG adapter + wired pad → `jstest`/`evtest`.
    Fallback if hardware can't route host VBUS: sysfs force role-switch; else BT pad.
 
-## §5 Battery/charging — Siliconmitus SM5703
+## Battery/charging — Siliconmitus SM5703
 One PMIC does fuel-gauge + charger + vibrator + (muic as above). I²C pins:
 scl 106 / sda 105 / irq 12 / uart 114 (per wiki).
 Roadmap: minimal driver for status (charge %, plugged/unplugged). Vibrator can
 ride the same bus later (tiny driver, fun).
 
-## §6 Firmware files (WiFi/BT — WCN3620)
+##  Firmware files (WiFi/BT — WCN3620)
 Drivers (`wcn36xx` for WLAN, `hci_uart` + `hciattach`/`btsnoop`-free serial BT
 attach for BT) need WLAN/BT firmware
 blobs shipped by pmOS (`firmware-qcom-msm8916` family packages). At M2, pull
@@ -149,7 +149,7 @@ those pmOS firmware packages (aarch64 .apk) and unpack into `/lib/firmware/`
 before first WLAN bring-up. Do NOT ship these in-repo; fetch step lives in
 scripts/make-rootfs.sh (TODO at M2).
 
-## §7 Debug workflow
+## Debug workflow
 - **Fedora USB perms (one-time):** fastboot *sending* needs raw USB write access
   — without it you get "Write to device failed (Permission denied)".
   Fix: `/etc/udev/rules.d/71-fastboot.rules` →
@@ -166,6 +166,6 @@ scripts/make-rootfs.sh (TODO at M2).
 - Kernel hang = screen freeze: dmesg still reachable over USB; keep a second
   log channel over /dev/ttyGS0 (the initramfs shell already does this).
 
-## §8 Brick-safety recap
+## Brick-safety recap
 Samsung boot ROM + Download Mode = Odin forever. Our writes: `BOOT` (lk2nd +
 kernel) and `userdata` (rootfs). Both dd-restorable / Odin-restorable.
