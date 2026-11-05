@@ -1,6 +1,6 @@
 # retro7 — one phone, one kernel, one menu, all the games
 
-A **full normal Linux** experience for the Samsung Galaxy On7 / On7 Pro
+A **full Console** experience for the Samsung Galaxy On7 / On7 Pro
 (SM-G600F / G600FY / G600S — Snapdragon 410 / msm8916, Adreno 306).
 
 - **Kernel:** mainline fork [`msm8916-mainline/linux`](https://github.com/msm8916-mainline/linux)
@@ -8,7 +8,7 @@ A **full normal Linux** experience for the Samsung Galaxy On7 / On7 Pro
 - **Userspace:** minimal-but-full Debian (`debootstrap minbase`, systemd, apt-universe available)
 - **DE:** X11 + Openbox + a tiny custom game-launcher menu (touch + gamepad friendly)
 - **Games:** re3 / reVC + old-NFS reverse-engineered reimplementations, aarch64 builds
-- **Power:** cross-compiled on your PC, plain apt on-device
+- **Power:** cross-compiled, pre-compiled
 
 ## Legend
 ✅ proven on this device · ⚠️ partial/untested · ❌ needs kernel/porting work
