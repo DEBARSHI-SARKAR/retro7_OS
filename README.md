@@ -23,21 +23,20 @@ A **full Console** experience for the Samsung Galaxy On7 / On7 Pro
 | Openbox + launcher menu | ✅ DIY in this repo |
 | Touchscreen (Zinitix ZT7548) | ❌ port driver → docs/bringup.md §2 |
 | Audio | ⚠️ drivers exist, o7 routing untested → §3 |
-| USB **host** mode (wired gamepad) | ⚠️ device-mode ok, host path absent → §4 |
-| Battery/charging (SM5703) | ⚠️ → §5 |
+| USB **host** mode (wired gamepad) | ⚠️ device-mode ok, host path absent |
 | Camera, GPS, sensors | ❌ out of scope |
 
 ## Milestones
 | | Goal | Proven by |
 |---|---|---|
 | M0 | lk2nd flashed (fastboot unlocked) | Vol-Down *while booting* shows lk2nd fastboot |
-| M1 | Our kernel + busybox initramfs RAM-boot | SSH-console over USB |
+| M1 | kernel + busybox initramfs RAM-boot | SSH-console over USB |
 | M2 | Debian rootfs on userdata, autologin | boots to console |
 | M3 | Touchscreen merged | menu usable by finger |
 | M4 | USB-host gamepad + audio | game playable with sound |
 | M5 | Ports compiled (re3/reVC, NFS reimpl) | ~30 fps GTA III |
 
-## Layout
+## Build Layout
 ```
 scripts/build-kernel.sh     kernel + dtb + modules (+ boot.img)
 scripts/make-initramfs.sh   tiny busybox initramfs (rescue + RAM-boot test)
@@ -47,8 +46,7 @@ kernel/retro7-fragment.config
 initramfs/init              initramfs /init (gadget console, switch_root)
 rootfs-overlay/             system config planted into the Debian rootfs
 launcher/                   Openbox config + game menu (source of truth)
-docs/bringup.md             hardware facts + §1..§5 driver plans
-docs/ports.md               cross-compiling re3/reVC & NFS reimpl
+docs/bringup.md             hardware facts + driver plans
 ```
 
 ## Quickstart
@@ -60,7 +58,7 @@ docs/ports.md               cross-compiling re3/reVC & NFS reimpl
    flex bison bc perl elfutils-libelf-devel openssl-devel cpio xz tar rsync git`
    + mkbootimg via tiny AOSP clone + wrapper (single-file/pypi routes dead —
    details: docs/bringup.md §0).
-1. Phone: flash lk2nd once (docs/bringup.md §1).
+1. Phone: flash lk2nd once (docs/bringup.md).
 2. `chmod +x scripts/*.sh launcher/games-menu.sh initramfs/init
    rootfs-overlay/usr/local/sbin/usb-gadget.sh` (one-time)
 3. `scripts/build-kernel.sh` → `scripts/make-initramfs.sh` → `scripts/flash.sh boot`
